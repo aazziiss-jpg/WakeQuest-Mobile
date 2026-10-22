@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../../../core/constants/app_colors.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../data/alarm_model.dart';
 import '../controllers/alarm_controller.dart';
+import '../widgets/day_selector_widget.dart';
 import '../widgets/target_box_widget.dart';
 
 class AddAlarmScreen extends ConsumerStatefulWidget {
@@ -32,7 +34,11 @@ class _AddAlarmScreenState extends ConsumerState<AddAlarmScreen> {
         : TimeOfDay.now();
     _titleController = TextEditingController(text: widget.alarmToEdit?.title ?? 'Bangun Pagi');
     _targetCount = widget.alarmToEdit?.targetCount ?? (Random().nextInt(5) + 1);
-    _selectedDays = widget.alarmToEdit?.repeatDays ?? [1, 2, 3, 4, 5];
+    
+    // Default repeat-days: [1, 2, 3, 4, 5, 6, 7] (Setiap Hari)
+    _selectedDays = widget.alarmToEdit?.repeatDays.isNotEmpty == true
+        ? List<int>.from(widget.alarmToEdit!.repeatDays)
+        : [1, 2, 3, 4, 5, 6, 7];
   }
 
   @override
@@ -85,7 +91,11 @@ class _AddAlarmScreenState extends ConsumerState<AddAlarmScreen> {
                 child: Center(
                   child: Text(
                     _selectedTime.format(context),
-                    style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: AppColors.primaryRed),
+                    style: const TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryRed,
+                    ),
                   ),
                 ),
               ),
@@ -93,10 +103,18 @@ class _AddAlarmScreenState extends ConsumerState<AddAlarmScreen> {
             const SizedBox(height: 24),
             TextField(
               controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Nama Alarm', border: OutlineInputBorder()),
+              decoration: const InputDecoration(
+                labelText: 'Nama Alarm',
+                border: OutlineInputBorder(),
+              ),
             ),
             const SizedBox(height: 24),
-            TargetBoxWidget(targetCount: _targetCount),
+            DaySelectorWidget(
+              selectedDays: _selectedDays,
+              onChanged: (days) => setState(() => _selectedDays = days),
+            ),
+            const SizedBox(height: 24),
+            const TargetBoxWidget(),
             const SizedBox(height: 32),
             AppButton(
               label: 'Simpan Alarm',

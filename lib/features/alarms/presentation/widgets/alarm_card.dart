@@ -37,11 +37,34 @@ class AlarmCard extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(alarm.title, style: const TextStyle(color: AppColors.textMuted)),
+            Row(
+              children: [
+                Text(
+                  alarm.title,
+                  style: const TextStyle(
+                    color: AppColors.textDark,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const Text(' • ', style: TextStyle(color: AppColors.textMuted)),
+                Text(
+                  alarm.repeatDaysFormatted,
+                  style: const TextStyle(
+                    color: AppColors.primaryRed,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 4),
-            Text(
-              '${alarm.targetCount} Target Tersembunyi ("Apa Hayo")',
-              style: const TextStyle(fontSize: 12, color: AppColors.primaryRed),
+            const Text(
+              'Misi Misteri: Apa hayooo~',
+              style: TextStyle(
+                fontSize: 12,
+                color: AppColors.textMuted,
+                fontStyle: FontStyle.italic,
+              ),
             ),
           ],
         ),
