@@ -27,6 +27,32 @@ class AlarmModel {
     return '$h:$m';
   }
 
+  String get repeatDaysFormatted {
+    if (repeatDays.isEmpty) return 'Sekali jalan';
+    if (repeatDays.length == 7) return 'Setiap hari';
+    
+    final sorted = List<int>.from(repeatDays)..sort();
+    
+    if (sorted.length == 5 && sorted.every((d) => d >= 1 && d <= 5)) {
+      return 'Hari kerja (Sen - Jum)';
+    }
+    if (sorted.length == 2 && sorted.contains(6) && sorted.contains(7)) {
+      return 'Akhir pekan (Sab - Min)';
+    }
+
+    const dayNames = {
+      1: 'Sen',
+      2: 'Sel',
+      3: 'Rab',
+      4: 'Kam',
+      5: 'Jum',
+      6: 'Sab',
+      7: 'Min',
+    };
+
+    return sorted.map((d) => dayNames[d] ?? '').where((s) => s.isNotEmpty).join(', ');
+  }
+
   AlarmModel copyWith({
     String? title,
     int? hour,
