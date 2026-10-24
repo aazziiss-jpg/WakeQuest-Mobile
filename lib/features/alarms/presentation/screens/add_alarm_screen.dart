@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../shared/widgets/app_button.dart';
+import '../../../audio/presentation/widget/sound_picker_widget.dart';
 import '../../data/alarm_model.dart';
 import '../controllers/alarm_controller.dart';
 import '../widgets/day_selector_widget.dart';
@@ -25,6 +26,7 @@ class _AddAlarmScreenState extends ConsumerState<AddAlarmScreen> {
   late TextEditingController _titleController;
   late int _targetCount;
   late List<int> _selectedDays;
+  late String _selectedSoundPath;
 
   @override
   void initState() {
@@ -39,6 +41,7 @@ class _AddAlarmScreenState extends ConsumerState<AddAlarmScreen> {
     _selectedDays = widget.alarmToEdit?.repeatDays.isNotEmpty == true
         ? List<int>.from(widget.alarmToEdit!.repeatDays)
         : [1, 2, 3, 4, 5, 6, 7];
+    _selectedSoundPath = widget.alarmToEdit?.soundPath ?? 'default_alarm.mp3';
   }
 
   @override
@@ -114,6 +117,12 @@ class _AddAlarmScreenState extends ConsumerState<AddAlarmScreen> {
               onChanged: (days) => setState(() => _selectedDays = days),
             ),
             const SizedBox(height: 24),
+            SoundPickerWidget(
+              selectedSoundPath: _selectedSoundPath,
+              onSoundSelected: (sound) {
+                setState(() => _selectedSoundPath = sound.path);
+              },
+            ),
             const TargetBoxWidget(),
             const SizedBox(height: 32),
             AppButton(

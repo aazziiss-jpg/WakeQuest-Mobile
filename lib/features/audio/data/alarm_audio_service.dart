@@ -1,30 +1,34 @@
 import 'package:audioplayers/audioplayers.dart';
 
 class AlarmAudioService {
-  final AudioPlayer _audioPlayer = AudioPlayer();
-  bool _isPlaying = false;
+  final AudioPlayer _player = AudioPlayer();
+  String? _currentlyPlayingPath;
 
-  bool get isPlaying => _isPlaying;
+  bool get isPlaying => _player.state == PlayerState.playing;
+  String? get currentlyPlayingPath => _currentlyPlayingPath;
 
-  Future<void> playAlarmSound(String soundPath) async {
-    if (_isPlaying) return;
-    try {
-      await _audioPlayer.setReleaseMode(ReleaseMode.loop);
-      await _audioPlayer.play(AssetSource('audio/$soundPath'));
-      _isPlaying = true;
-    } catch (_) {
-      await _audioPlayer.play(AssetSource('audio/default_alarm.mp3'));
-      _isPlaying = true;
+  Future<void> previewSound(String soundPath, {bool isCustom = false}) async {
+    if (_currentlyPlayingPath == soundPath && isPlaying) {
+      await stopPreview();
+      return;
+    }
+
+    await stopPreview();
+    _currentlyPlayingPath = soundPath;
+
+    if (isCustom) {
+      await _player.play(DeviceFileSource(soundPath));
+    } else {
+      await _player.play(AssetSource('audio/$soundPath'));
     }
   }
 
-  Future<void> stopAlarmSound() async {
-    if (!_isPlaying) return;
-    await _audioPlayer.stop();
-    _isPlaying = false;
+  Future<void> stopPreview() async {
+    await _player.stop();
+    _currentlyPlayingPath = null;
   }
 
   void dispose() {
-    _audioPlayer.dispose();
+    _player.dispose();
   }
 }
