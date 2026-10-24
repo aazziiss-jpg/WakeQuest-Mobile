@@ -6,6 +6,7 @@ import '../features/alarms/presentation/screens/add_alarm_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/dashboard/presentation/screens/dashboard_screen.dart';
+import '../features/missions/presentation/screens/mission_camera_screen.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/login',
@@ -43,6 +44,10 @@ final GoRouter appRouter = GoRouter(
         final alarmToEdit = state.extra as AlarmModel?;
         return AddAlarmScreen(alarmToEdit: alarmToEdit);
       },
+    ),
+    GoRoute(
+      path: '/mission',
+      builder: (context, state) => const MissionCameraScreen(targetObject: 'HP / Smartphone'), 
     ),
   ],
 );
