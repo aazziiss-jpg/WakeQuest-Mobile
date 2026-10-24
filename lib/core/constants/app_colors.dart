@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
-abstract class AppColors {
-  static const Color primaryRed = Color(0xFFE11D48);
-  static const Color primaryHover = Color(0xFFBE123C);
+class AppColors {
+  // Palette Utama Monokromatik (shadcn/ui zinc style)
+  static const Color primaryDark = Color(0xFF09090B); // Primary Action & Accent (Hitam Pekat)
+  static const Color bgLight = Color(0xFFFAFAFA);     // Latar belakang utama (Off-White)
+  static const Color surfaceLight = Color(0xFFFFFFFF); // Warna Surface Kartu (Putih)
   
-  static const Color bgLight = Color(0xFFFAFAFA);
-  static const Color surfaceLight = Color(0xFFFFFFFF);
-  static const Color borderLight = Color(0xFFE4E4E7);
+  // Teks & Subtitle
+  static const Color textDark = Color(0xFF09090B);     // Teks Utama (Hitam)
+  static const Color textMuted = Color(0xFF71717A);    // Teks Sekunder / Muted (Zinc-500)
   
-  static const Color textDark = Color(0xFF09090B);
-  static const Color textMuted = Color(0xFF71717A);
+  // Border & Divider
+  static const Color borderLight = Color(0xFFE4E4E7);  // Border Tipis (Zinc-200)
   
-  static const Color success = Color(0xFF16A34A);
-  static const Color destructive = Color(0xFFDC2626);
+  // Deprecated Fallback Compatibility (Aksen Merah Diganti ke Hitam Utuh)
+  static const Color primaryRed = Color(0xFF09090B);
+
+  static const Color destructive = Color(0xFFEF4444);
 }
